@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- parametry z OBD-->
+    <string name="VIN">Numer nadwozia(VIN):"</string>
+    <string name="speed">Prędkość (km/h):</string>
+    <string name="RPM">Obroty (RPM):</string>
+    <string name="engineLoad">Obciążenie silnika(%):</string>
+    <string name="throttle">Położenie przepustnicy (%):</string>
+    <string name="coolantTemp">Temperatura płynu chłodzącego(st. C):</string>
+    <string name="colectorPressure">Ciśnienie w kolektorze dolotowym (kPa):</string>
+    <string name="fuelLevel">Poziom paliwa (l):</string>
+    <string name="voltage">Napięcie (V):</string>
+    <!-- tytuł logo-->
+    <string name="logoTitle">Ocena stylu jazdy</string>
+    <!-- przyciski elm-->
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="connect">Połącz</string>
+    <string name="chooseDevice">Wybierz urządzenie</string>
+    <string name="btDevice">Nie wybrano urządzenia Bluetooth</string>
+    <!--prędkościomierz z limitem -->
+    <string name="gpsSpeed">Prędkość bieżąca:</string>
+    <string name="gpsTime">Czas:</string>
+    <string name="latlong">Współrzędne:</string>
+    <string name="speedLimit">Limit predkości:</string>
+    <!--akcelerometr-->
+    <string name="unit">-.-m/s^2</string>
+    <!--ekran główny-->
+    <string name="acce">Akcelerometr</string>
+    <string name="speedometer">Prędkościomierz</string>
+    <string name="elm">ELM 327</string>
+    <string name="loadRating">Oceń styl jazdy</string>
+    <string name="eraseData">Wyczyść bazę danych</string>
+    <string name="rating1">Ocena za hamowanie i ruszanie:</string>
+    <string name="rating2">Ocena za prędkość:</string>
+    <string name="rating3">Ocena za sterowanie pedałem:</string>
+    <string name="ratingSummary">Ocena ogólna:</string>
+    <string name="distance">Dystans:</string>
+
+
+</resources>

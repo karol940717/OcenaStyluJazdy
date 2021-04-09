@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="bChooseDevice" type="id" />
+    <item name="command1Label" type="id" />
+    <item name="command2Label" type="id" />
+    <item name="command3Label" type="id" />
+    <item name="command1Result" type="id" />
+    <item name="command2Result" type="id" />
+    <item name="command3Result" type="id" />
+    <item name="bStart" type="id" />
+    <item name="bStop" type="id" />
+    <item name="bConnect" type="id" />
+    <item name="bChooseParams" type="id" />
+    <item name="command4Label" type="id" />
+    <item name="command4Result" type="id" />
+    <item name="command5Label" type="id" />
+    <item name="command5Result" type="id" />
+    <item name="command6Label" type="id" />
+    <item name="command6Result" type="id" />
+    <item name="command7Label" type="id" />
+    <item name="command7Result" type="id" />
+    <item name="command8Label" type="id" />
+    <item name="command8Result" type="id" />
+    <item name="command9Label" type="id" />
+    <item name="command9Result" type="id" />
+    <item name="linearLayout" type="id" />
+    <item name="command10Label" type="id" />
+    <item name="command10Result" type="id" />
+</resources>

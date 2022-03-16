@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Ocena Stylu Jazdy"
+rootProject.name = "Ocena Stylu Jazdy-Driving Style Assessment"

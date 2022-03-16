@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.ocenastylujazdy.DataBase.MyDatabase;
+import com.example.ocenastylujazdy.MainActivity;
 import com.example.ocenastylujazdy.R;
 import com.github.pires.obd.commands.ObdCommand;
 import com.github.pires.obd.commands.SpeedCommand;
@@ -45,7 +47,7 @@ public class MainActivityELM327 extends Activity {
     private Button bConnect, bStart, bStop, bChooseDevice;
     private TextView command1Label, command2Label, command3Label, command4Label, command5Label, command6Label, command7Label;
     private TextView command1Result, command2Result, command3Result, command4Result, command5Result, command6Result, command7Result;
-
+   ImageButton nextIntent;
     private ObdCommand command1 = new RPMCommand();
     private ObdCommand command2 = new SpeedCommand();
     private ObdCommand command3 = new LoadCommand();
@@ -85,6 +87,8 @@ public class MainActivityELM327 extends Activity {
         bChooseDevice = findViewById(R.id.bChooseDevice);
         bChooseDevice.setOnClickListener(e -> chooseBluetoothDevice());
 
+        nextIntent=findViewById(R.id.buttonNextIntent2);
+        nextIntent.setOnClickListener(e -> nextInte());
 
         bConnect = findViewById(R.id.bConnect);
         bConnect.setOnClickListener(e -> connectOBD());
@@ -164,7 +168,7 @@ public class MainActivityELM327 extends Activity {
             bConnect.setEnabled(false);
 
         } catch (IllegalArgumentException e) {
-            Toast.makeText(MainActivityELM327.this, "Wybierz najpierwsz urządzenie Bluetooth", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivityELM327.this, "Wybierz najpierw urządzenie Bluetooth", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(MainActivityELM327.this, "Nie można nawiązać połączenia", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
@@ -194,8 +198,10 @@ public class MainActivityELM327 extends Activity {
                     command5Result.setText(command5.getCalculatedResult());
                     command6.run(btSocket.getInputStream(), btSocket.getOutputStream());
                     command6Result.setText(command6.getCalculatedResult());
-                    database.writeDataThrottle(Float.valueOf(command6.getCalculatedResult()));
-                    if(Float.valueOf(command6.getCalculatedResult())>50){
+                    if (Float.valueOf(command6.getCalculatedResult()) > 0) {
+                        database.writeDataThrottle(Float.valueOf(command6.getCalculatedResult()));
+                    }
+                     if (Float.valueOf(command6.getCalculatedResult()) > 40) {
                         database.writeDataThrottleX(Float.valueOf(command6.getCalculatedResult()));
                     }
 
@@ -203,7 +209,7 @@ public class MainActivityELM327 extends Activity {
                     Toast.makeText(MainActivityELM327.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
-        }, 100, 1000);
+        }, 100,1000);
         try {
             command7.run(btSocket.getInputStream(), btSocket.getOutputStream());
         } catch (NumberFormatException | IOException | InterruptedException e) {
@@ -227,6 +233,16 @@ public class MainActivityELM327 extends Activity {
         bStop.setEnabled(false);
         bConnect.setEnabled(true);
         bChooseDevice.setEnabled(true);
+    }
+    private  void nextInte(){
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        finish();
     }
 }
 

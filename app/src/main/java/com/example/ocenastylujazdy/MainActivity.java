@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,17 +24,28 @@ import com.example.ocenastylujazdy.DataView.DataView1Activiy;
 import com.example.ocenastylujazdy.DataView.DataView2Activiy;
 import com.example.ocenastylujazdy.DataView.DataView3Activiy;
 
+import java.io.File;
+import java.io.FileWriter;
+
 public class MainActivity extends Activity implements View.OnClickListener {
     ImageButton buttonHelp, buttonSettings;
     Button buttonSensor, buttonELM, buttonSpeedMeter, buttonOcena, buttonClearDatabase, buttonstartMesure, buttonstopMesure;
-
-    TextView textRating, textDistance, DBtext, DBtext2,DBtext3;
+    TextView textRating;
+    TextView textDistance;
+    TextView DBtext;
+    TextView DBtext2;
+    TextView DBtext3;
+    TextView progress;
+    String brake_acc, speed_text, throttle_acc, summary_rate;
     ImageView imageViewAxis;
     MyDatabase database;
+    ProgressBar prgBar;
+    private int prg = 0;
+    Handler handler = new Handler();
 
     SensorsActivity sensorsActivity = new SensorsActivity();
     GpsSpeedActivity gpsSpeedActivity = new GpsSpeedActivity();
-    MainActivityELM327 mainActivityELM327= new MainActivityELM327();
+    MainActivityELM327 mainActivityELM327 = new MainActivityELM327();
 
 
     @Override
@@ -56,6 +71,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         DBtext2 = findViewById(R.id.DatabaseReadTextView2);
         DBtext3 = findViewById(R.id.DatabaseReadTextView3);
         textRating = findViewById(R.id.textRating);
+        progress = findViewById(R.id.textViewProgress);
+        //Oceny
+        //brake_acc=getResources().getString(R.string.brake_acceleration);;
+        brake_acc=getString(R.string.brake_acceleration);
+        speed_text=getString(R.string.speed_text);
+        throttle_acc=getString(R.string.throttle_acc);
+        summary_rate=getString(R.string.ratingSummary);
+
+
 
         // nasłuchiwanie
         buttonHelp.setOnClickListener(this);
@@ -71,63 +95,129 @@ public class MainActivity extends Activity implements View.OnClickListener {
         DBtext2.setOnClickListener(this);
         DBtext3.setOnClickListener(this);
 
+        //progress bar
+        prgBar = findViewById(R.id.progressBar);
+        prgBar.setVisibility(View.INVISIBLE);
 
-
-//pozwolenie na dostęp do usługi lokalizacji
-
+        //pozwolenie na dostęp do usługi lokalizacji
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        } else {
-            Intent intent = new Intent(this, GpsSpeedActivity.class);
-            startActivity(intent);
+            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
-//        Intent intent = new Intent(this, SensorsActivity.class);
-//        startActivityForResult(intent,0);
-
-//        Intent i = new Intent(this, SensorsActivity.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(i);
-//        finish();
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            Intent intent = new Intent(this, GpsActivity.class);
-//            startActivity(intent);
-//        }
-//    }
 
     //przypisanie funkcji do przycisków
     @Override
     public void onClick(View v) {
         if (v.getId() == buttonHelp.getId()) {
-            Toast.makeText(MainActivity.this, "Informacje", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.info), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainHelp.class);
             startActivity(intent);
         } else if (v.getId() == buttonELM.getId()) {
             Intent intent = new Intent(this, MainActivityELM327.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            database.deleteAllData();
         } else if (v.getId() == buttonSensor.getId()) {
             Intent intent = new Intent(this, SensorsActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else if (v.getId() == buttonSpeedMeter.getId()) {
             Intent intent = new Intent(this, GpsSpeedActivity.class);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
-
-        //wywołanie metody zapisującej odczyty do bazy danych
+        //zapis do pliku csv wyników z bazy danych
         else if (v.getId() == buttonstartMesure.getId()) {
 //            Intent intent = getIntent();
 //            Bundle bd = intent.getExtras();
 //            if (bd != null) {
 //                Float getName = (Float) bd.get("z");
 //                database.writeData(getName);
-//            }
+
+            String FILENAME = "log.csv";
+            String FILENAME1 = "log1.csv";
+            String FILENAME2 = "log2.csv";
+            String FILENAME3 = "log3.csv";
+            String FILENAME4 = "log4.csv";
+            String FILENAME5 = "log5.csv";
+            File directoryDownload = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File logDir = new File(directoryDownload, FILENAME);
+            File logDir1 = new File(directoryDownload, FILENAME1);
+            File logDir2 = new File(directoryDownload, FILENAME2);
+            File logDir3 = new File(directoryDownload, FILENAME3);
+            File logDir4 = new File(directoryDownload, FILENAME4);
+            File logDir5 = new File(directoryDownload, FILENAME5);
+            try {
+                logDir.createNewFile();
+                logDir1.createNewFile();
+                logDir2.createNewFile();
+                logDir3.createNewFile();
+                logDir4.createNewFile();
+                logDir5.createNewFile();
+                CSVWriter csvWrite = new CSVWriter(new FileWriter(logDir));
+                CSVWriter csvWrite1 = new CSVWriter(new FileWriter(logDir1));
+                CSVWriter csvWrite2 = new CSVWriter(new FileWriter(logDir2));
+                CSVWriter csvWrite3 = new CSVWriter(new FileWriter(logDir3));
+                CSVWriter csvWrite4 = new CSVWriter(new FileWriter(logDir4));
+                CSVWriter csvWrite5 = new CSVWriter(new FileWriter(logDir5));
+                Cursor curCSV = database.getReadableDatabase().rawQuery("SELECT * FROM  sensZ", null);
+                Cursor curCSV1 = database.getReadableDatabase().rawQuery("SELECT * FROM  sensZX", null);
+                Cursor curCSV2 = database.getReadableDatabase().rawQuery("SELECT * FROM  Gps", null);
+                Cursor curCSV3 = database.getReadableDatabase().rawQuery("SELECT * FROM  GpsL", null);
+                Cursor curCSV4 = database.getReadableDatabase().rawQuery("SELECT * FROM  Throttle", null);
+                Cursor curCSV5 = database.getReadableDatabase().rawQuery("SELECT * FROM  ThrottleX", null);
+                csvWrite.writeNext(curCSV.getColumnNames());
+                csvWrite1.writeNext(curCSV1.getColumnNames());
+                csvWrite2.writeNext(curCSV2.getColumnNames());
+                csvWrite3.writeNext(curCSV3.getColumnNames());
+                csvWrite4.writeNext(curCSV4.getColumnNames());
+                csvWrite5.writeNext(curCSV5.getColumnNames());
+                while (curCSV.moveToNext()) {
+                    //Which column you want to exprort;
+                    String arrStr[] = {curCSV.getString(0) + "#" + curCSV.getString(1)};
+                    csvWrite.writeNext(arrStr);
+                }
+                csvWrite.close();
+                curCSV.close();
+                while (curCSV1.moveToNext()) {
+                    String arrStr1[] = {curCSV1.getString(0) + "#" + curCSV1.getString(1)};
+                    csvWrite1.writeNext(arrStr1);
+                }
+                csvWrite1.close();
+                curCSV1.close();
+                while (curCSV2.moveToNext()) {
+                    String arrStr2[] = {curCSV2.getString(0) + "#" + curCSV2.getString(1)};
+                    csvWrite2.writeNext(arrStr2);
+                }
+                csvWrite2.close();
+                curCSV2.close();
+                while (curCSV3.moveToNext()) {
+                    String arrStr3[] = {curCSV3.getString(0) + "#" + curCSV3.getString(1)};
+                    csvWrite3.writeNext(arrStr3);
+                }
+                csvWrite3.close();
+                curCSV3.close();
+                while (curCSV4.moveToNext()) {
+                    String arrStr4[] = {curCSV4.getString(0) + "#" + curCSV4.getString(1)};
+                    csvWrite4.writeNext(arrStr4);
+                }
+                csvWrite4.close();
+                curCSV4.close();
+                while (curCSV5.moveToNext()) {
+                    String arrStr5[] = {curCSV5.getString(0) + "#" + curCSV5.getString(1)};
+                    csvWrite5.writeNext(arrStr5);
+                }
+                csvWrite5.close();
+                curCSV5.close();
+
+                Toast.makeText(MainActivity.this, getString(R.string.save_data_to_csv), Toast.LENGTH_SHORT).show();
+            } catch (Exception sqlEx) {
+                Log.e("MainActivity", sqlEx.getMessage(), sqlEx);
+                Toast.makeText(MainActivity.this, sqlEx.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+
         } else if (v.getId() == buttonOcena.getId()) {
-//przyspieszenia
+            //przyspieszenia
             Cursor cursor = database.getAllData();
             Cursor cursor2 = database.getAllDataZX();
             float parm1 = cursor2.getCount();
@@ -135,17 +225,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
             float ocena = parm1 / parm2;
 
             if (ocena <= 0.2) {
-                DBtext.setText("Ocena za hamowanie i ruszanie: 5/5");
+                DBtext.setText(brake_acc + " 5/5");
             } else if (ocena > 0.2 && ocena <= 0.4) {
-                DBtext.setText("Ocena za hamowanie i ruszanie: 4/5");
+                DBtext.setText(brake_acc + " 4/5");
             } else if (ocena > 0.4 && ocena <= 0.6) {
-                DBtext.setText("Ocena za hamowanie i ruszanie: 3/5");
+                DBtext.setText(brake_acc + " 3/5");
             } else if (ocena > 0.6 && ocena <= 0.8) {
-                DBtext.setText("Ocena za hamowanie i ruszanie: 2/5");
+                DBtext.setText(brake_acc + " 2/5");
             } else if (ocena > 0.8) {
-                DBtext.setText("Ocena za hamowanie i ruszanie: 1/5");
+                DBtext.setText(brake_acc + " 1/5");
             } else {
-                DBtext.setText("Rozpocznij pomiar przyspieszeń!!!");
+                DBtext.setText(getString(R.string.test_acc));
             }
             //prędkość
             Cursor cursor3 = database.getAllDataSpeed();
@@ -154,20 +244,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
             float parm4 = cursor3.getCount();
             float ocena2 = parm3 / parm4;
 
+
             if (ocena2 <= 0.2) {
-                DBtext2.setText("Ocena za prędkość: 5/5");
+                DBtext2.setText(speed_text + " 5/5");
             } else if (ocena2 > 0.2 && ocena2 <= 0.4) {
-                DBtext2.setText("Ocena za prędkość: 4/5");
+                DBtext2.setText(speed_text + " 4/5");
             } else if (ocena2 > 0.4 && ocena2 <= 0.6) {
-                DBtext2.setText("Ocena za prędkość: 3/5");
+                DBtext2.setText(speed_text + " 3/5");
             } else if (ocena2 > 0.6 && ocena2 <= 0.8) {
-                DBtext2.setText("Ocena za prędkość: 2/5");
+                DBtext2.setText(speed_text + " 2/5");
             } else if (ocena2 > 0.8) {
-                DBtext2.setText("Ocena za prędkość: 1/5");
+                DBtext2.setText(speed_text + " 1/5");
             } else {
-                DBtext2.setText("Rozpocznij pomiar prędkości!!!");
+                DBtext2.setText(getString(R.string.test_speed));
 
             }
+
             //ELM327
             Cursor cursor5 = database.getAllDataThrottle();
             Cursor cursor6 = database.getAllDataThrottleX();
@@ -176,69 +268,161 @@ public class MainActivity extends Activity implements View.OnClickListener {
             float ocena3 = parm5 / parm6;
 
             if (ocena3 <= 0.2) {
-                DBtext3.setText("Ocena za sterowanie pedałem: 5/5");
+                DBtext3.setText(throttle_acc + " 5/5");
             } else if (ocena3 > 0.2 && ocena3 <= 0.4) {
-                DBtext3.setText("Ocena za sterowanie pedałem: 4/5");
+                DBtext3.setText(throttle_acc + " 4/5");
             } else if (ocena3 > 0.4 && ocena3 <= 0.6) {
-                DBtext3.setText("Ocena za sterowanie pedałem: 3/5");
+                DBtext3.setText(throttle_acc + " 3/5");
             } else if (ocena3 > 0.6 && ocena3 <= 0.8) {
-                DBtext3.setText("Ocena za sterowanie pedałem: 2/5");
+                DBtext3.setText(throttle_acc + " 2/5");
             } else if (ocena3 > 0.8) {
-                DBtext3.setText("Ocena za sterowanie pedałem: 1/5");
+                DBtext3.setText(throttle_acc + " 1/5");
             } else {
-                DBtext3.setText("Rozpocznij pomiar ELM327!!!");
-
+                DBtext3.setText(getString(R.string.test_ELM));
             }
 
             //Ocena ogólna
-            float ocena4=(ocena+ocena2+ocena3)/3;
+            float ocena4 = (ocena + ocena2 + ocena3) / 3;
             if (ocena4 <= 0.2) {
-                textRating.setText("Ocena ogólna: 5/5");
+                textRating.setText(summary_rate + " 5/5");
+                textRating.setTextSize(25);
             } else if (ocena4 > 0.2 && ocena4 <= 0.4) {
-                textRating.setText("Ocena ogólna: 4/5");
+                textRating.setText(summary_rate + " 4/5");
+                textRating.setTextSize(25);
             } else if (ocena4 > 0.4 && ocena4 <= 0.6) {
-                textRating.setText("Ocena ogólna: 3/5");
+                textRating.setText(summary_rate + " 3/5");
+                textRating.setTextSize(25);
             } else if (ocena4 > 0.6 && ocena4 <= 0.8) {
-                textRating.setText("Ocena ogólna: 2/5");
+                textRating.setText(summary_rate + " 2/5");
+                textRating.setTextSize(25);
             } else if (ocena4 > 0.8) {
-                textRating.setText("Ocena ogólna: 1/5");
+                textRating.setText(summary_rate + " 1/5");
+                textRating.setTextSize(25);
             } else {
-                textRating.setText("Portrzebne dane ze wszystkich czujników!!!");
+                textRating.setText(getString(R.string.all_sensor));
                 textRating.setTextSize(15);
             }
+            Toast.makeText(MainActivity.this, getString(R.string.count_rate), Toast.LENGTH_SHORT).show();
         }
         //zatrzymanie odczytu z sensorów i wyświetlenie oceny
         //usuwanie danych z bazy
         else if (v.getId() == buttonClearDatabase.getId()) {
             database.deleteAllData();
-            DBtext.setText("Ocena za hamowanie i ruszanie:");
-            DBtext2.setText("Ocena za prędkość:");
-            DBtext3.setText("Ocena za sterowanie pedałem:");
-            textRating.setText("Ocena ogólna:");
+            DBtext.setText(getString(R.string.rating1));
+            DBtext2.setText(getString(R.string.rating2));
+            DBtext3.setText(R.string.rating3);
+            textRating.setText(summary_rate);
             textRating.setTextSize(25);
             database.close();
+            Toast.makeText(MainActivity.this, getString(R.string.erase_dtb), Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == buttonstopMesure.getId()) {
             database.close();
-            sensorsActivity.finishAffinity();
-            gpsSpeedActivity.finishAffinity();
-            mainActivityELM327.finishAffinity();
-            sensorsActivity.finish();
-            gpsSpeedActivity.finish();
-            mainActivityELM327.finish();
-        }
-        else if (v.getId() == DBtext.getId()) {
-            Intent intent= new Intent(this, DataView1Activiy.class);
+            sensorsActivity.onPause();
+            gpsSpeedActivity.onPause();
+            mainActivityELM327.onPause();
+            Toast.makeText(MainActivity.this, getString(R.string.close_all_activity), Toast.LENGTH_LONG).show();
+
+
+        } else if (v.getId() == DBtext.getId()) {
+            prgBar.setVisibility(View.VISIBLE);
+            prg = prgBar.getProgress();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (prg < 100) {
+                        prg++;
+                        // pokazuje akualna wartość progresu
+                        handler.post(new Runnable() {
+                            public void run() {
+                                prgBar.setProgress(prg);
+                                progress.setText(prg + "/" + prgBar.getMax());
+                            }
+                        });
+                        try {
+                            // Pokazuje progressBar po 100milisekundach.
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+            Intent intent = new Intent(this, DataView1Activiy.class);
             startActivity(intent);
-        }
-        else if (v.getId() == DBtext2.getId()) {
-            Intent intent= new Intent(this, DataView2Activiy.class);
+
+
+        } else if (v.getId() == DBtext2.getId()) {
+
+            prgBar.setVisibility(View.VISIBLE);
+            prg = prgBar.getProgress();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (prg < 100) {
+                        prg += 1;
+                        // pokazuje akualna wartość progresu
+                        handler.post(new Runnable() {
+                            public void run() {
+                                prgBar.setProgress(prg);
+                                progress.setText(prg + "/" + prgBar.getMax());
+                            }
+                        });
+                        try {
+                            // Pokazuje progressBar po 100milisekundach.
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+
+            Intent intent = new Intent(this, DataView2Activiy.class);
             startActivity(intent);
-        }
-        else if (v.getId() == DBtext3.getId()) {
-            Intent intent= new Intent(this, DataView3Activiy.class);
+        } else if (v.getId() == DBtext3.getId()) {
+
+            prgBar.setVisibility(View.VISIBLE);
+            prg = prgBar.getProgress();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (prg < 100) {
+                        prg += 1;
+                        // pokazuje akualna wartość progresu
+                        handler.post(new Runnable() {
+                            public void run() {
+                                prgBar.setProgress(prg);
+                                progress.setText(prg + "/" + prgBar.getMax());
+                            }
+                        });
+                        try {
+                            // Pokazuje progressBar po 100milisekundach.
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+
+            Intent intent = new Intent(this, DataView3Activiy.class);
             startActivity(intent);
         }
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 10) {
+//            if (resultCode == RESULT_OK) {
+//                Float message = data.getFloatExtra("MESSAGE",z);
+//                Float message2 = data.getFloatExtra("MESSAGE2",z);
+//                database.writeData(message);
+//                database.writeDataZX(message2);
+//
+//            }
+//        }
+//    }
 }
 

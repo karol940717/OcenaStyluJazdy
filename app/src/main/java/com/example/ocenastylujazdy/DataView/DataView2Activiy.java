@@ -1,11 +1,13 @@
 package com.example.ocenastylujazdy.DataView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.ocenastylujazdy.DataBase.MyDatabase;
+import com.example.ocenastylujazdy.MainActivity;
 import com.example.ocenastylujazdy.R;
 
 public class DataView2Activiy extends Activity {
@@ -37,5 +39,13 @@ public class DataView2Activiy extends Activity {
         }
         data1.setText(builder.toString());
         data2.setText(builder2.toString());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+        Intent intent= new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -7,14 +7,25 @@
     android:background="@drawable/texture"
     tools:context=".GpsSpeedActivity">
 
+    <ImageButton
+        android:id="@+id/buttonNextIntent3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_send"
+        android:tint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
     <TextView
         android:id="@+id/textViewCurrentSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="150dp"
         android:text="@string/gpsSpeed"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,20 +49,10 @@
         android:layout_marginTop="100dp"
         android:text="@string/speedLimit"
         android:textColor="@color/black"
-        android:textSize="40sp"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLatLong" />
 
-    <TextView
-        android:id="@+id/textViewTimeGps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/gpsTime"
-        android:visibility="invisible"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewCurrentSpeed"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentSpeed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

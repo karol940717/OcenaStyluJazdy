@@ -67,6 +67,7 @@ public class MyDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(" throttlePositionexceed",  throttlePositionexceed);
         db.insertOrThrow("ThrottleX", null, values);
+
     }
 
 
@@ -74,7 +75,6 @@ public class MyDatabase extends SQLiteOpenHelper {
     //odczyt danych
     public Cursor getAllData() {
         String[] columns = {"id1", "accelerationZ"};
-
         SQLiteDatabase db = getReadableDatabase();
         return db.query("sensZ", columns, null, null, null, null, null, null);
     }

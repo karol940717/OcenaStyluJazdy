@@ -1,21 +1,14 @@
 package com.example.ocenastylujazdy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.hardware.Sensor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainHelp extends Activity {
     TextView textHelp, textCopyright;
 
 
+    //@SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,19 +18,17 @@ public class MainHelp extends Activity {
         textCopyright = findViewById(R.id.textCopyright);
 
 
-        textHelp.setText("APLIKACJA DO OCENY STYLU JAZDY KIEROWCY\n" +
+        textHelp.setText(getString(R.string.hlp) + "\n" +
                 "\n" +
-                "Kryteria oceny stylu jazdy:\n" +
+                        getString(R.string.hlp1) +"\n" +
                 "\n" +
-                "-Ocena na podstawie odczytów przyspieszeń osi X oraz Z urządzenia i przekroczenia określonych progów tych wartości\n" +
+                        getString(R.string.hlp2) +"\n" +
                 "\n" +
-                "-Ocena na podstawie odczytów prędkości urządzenia z czujnika GPS i przekroczenia wartości w porównaniu z danymi z Google Maps\n" +
+                        getString(R.string.hlp3) +"\n" +
                 "\n" +
-                "Dodatkowe funkcje aplikacji:\n" +
-                "\n" +
-                "Możliwość połączenia aplikacji z intefejsem diagnostycznym ELM327 za pomocą BLUETOOTH");
+                        getString(R.string.hlp4));
 
-        textCopyright.setText("©Copyright Karol Chotkiewicz");
+        textCopyright.setText(getString(R.string.hlp5));
 
     }
 

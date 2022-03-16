@@ -3,8 +3,6 @@
     <!-- parametry z OBD-->
     <string name="VIN">Numer nadwozia(VIN):"</string>
     <string name="speed">Prędkość (km/h):</string>
-    <string name="RPM">Obroty (RPM):</string>
-    <string name="engineLoad">Obciążenie silnika(%):</string>
     <string name="throttle">Położenie przepustnicy (%):</string>
     <string name="coolantTemp">Temperatura płynu chłodzącego(st. C):</string>
     <string name="colectorPressure">Ciśnienie w kolektorze dolotowym (kPa):</string>
@@ -13,8 +11,8 @@
     <!-- tytuł logo-->
     <string name="logoTitle">Ocena stylu jazdy</string>
     <!-- przyciski elm-->
-    <string name="start">Start</string>
-    <string name="stop">Stop</string>
+    <string name="start" translatable="false">Start</string>
+    <string name="stop" translatable="false">Stop</string>
     <string name="connect">Połącz</string>
     <string name="chooseDevice">Wybierz urządzenie</string>
     <string name="btDevice">Nie wybrano urządzenia Bluetooth</string>
@@ -22,13 +20,13 @@
     <string name="gpsSpeed">Prędkość bieżąca:</string>
     <string name="gpsTime">Czas:</string>
     <string name="latlong">Współrzędne:</string>
-    <string name="speedLimit">Limit predkości:</string>
+    <string name="speedLimit">Limit prędkości:</string>
     <!--akcelerometr-->
-    <string name="unit">-.-m/s^2</string>
+    <string name="unit" translatable="false">-.-m/s^2</string>
     <!--ekran główny-->
     <string name="acce">Akcelerometr</string>
     <string name="speedometer">Prędkościomierz</string>
-    <string name="elm">ELM 327</string>
+    <string name="elm" translatable="false">ELM 327</string>
     <string name="loadRating">Oceń styl jazdy</string>
     <string name="eraseData">Wyczyść bazę danych</string>
     <string name="rating1">Ocena za hamowanie i ruszanie:</string>
@@ -36,6 +34,28 @@
     <string name="rating3">Ocena za sterowanie pedałem:</string>
     <string name="ratingSummary">Ocena ogólna:</string>
     <string name="distance">Dystans:</string>
+    <string name="test_acc">Rozpocznij pomiar przyspieszeń!!!</string>
+    <string name="test_speed">Rozpocznij pomiar prędkości!!!</string>
+    <string name="test_ELM">Rozpocznij pomiar ELM327!!!</string>
+    <string name="all_sensor">Potrzebne dane ze wszystkich czujników!!!</string>
 
-
+    <!--opisy ocen-->
+    <string name="brake_acceleration">Hamowanie i przyspieszanie:</string>
+    <string name="speed_text">Prędkość:</string>
+    <string name="throttle_acc">Pedał przyspieszenia:</string>
+    <!--dymki-->
+    <string name="info">Informacje</string>
+    <string name="save_data_to_csv">Zapis danych do pliku csv</string>
+    <string name="count_rate">Obliczono ocenę</string>
+    <string name="erase_dtb">Baza danych wyczyszczona</string>
+    <string name="close_all_activity">Zamknięto aktywności działające w tle</string>
+    <!--pomoc-->
+    <string name="hlp">APLIKACJA DO OCENY STYLU JAZDY KIEROWCY</string>
+    <string name="hlp1">Kryteria oceny stylu jazdy:</string>
+    <string name="hlp2">-Ocena na podstawie odczytów przyspieszeń osi Z urządzenia(zgodnie z ruchem pojazdu) i przekroczenia zadanych limitów tych wartości.</string>
+    <string name="hlp3">-Ocena na podstawie odczytów prędkości urządzenia z czujnika GPS i przekroczenia limitów prędkości pobieranych z bazy danych HERE.</string>
+    <string name="hlp4">-Ocena na podstawie położenia pedału przyspieszenia i przekroczenia zadanych limitów tych wartości pobieranych przez interfejs diagnostyczny ELM327.</string>
+    <string name="hlp5" translatable="false">©Copyright Karol Chotkiewicz</string>
+    <string name="engineLoad">Obciążenie silnika(%):</string>
+    <string name="RPM">Obroty(RPM)</string>
 </resources>

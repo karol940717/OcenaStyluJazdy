@@ -7,6 +7,17 @@
     android:background="@drawable/texture"
     tools:context=".BluetoothELM327.MainActivityELM327">
 
+    <ImageButton
+        android:id="@+id/buttonNextIntent2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_send"
+        android:tint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
     <Button
         android:id="@+id/bChooseDevice"
         android:layout_width="150dp"

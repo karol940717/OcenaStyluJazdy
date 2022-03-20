@@ -37,7 +37,8 @@
     <string name="test_acc">Rozpocznij pomiar przyspieszeń!!!</string>
     <string name="test_speed">Rozpocznij pomiar prędkości!!!</string>
     <string name="test_ELM">Rozpocznij pomiar ELM327!!!</string>
-    <string name="all_sensor">Potrzebne dane ze wszystkich czujników!!!</string>
+    <string name="all_sensor">Potrzebne dane ze wszystkich czujników!!!</string>\
+    <string name="saveData">Zapisz</string>
 
     <!--opisy ocen-->
     <string name="brake_acceleration">Hamowanie i przyspieszanie:</string>

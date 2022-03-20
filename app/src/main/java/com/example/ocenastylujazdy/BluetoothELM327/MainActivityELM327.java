@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.ocenastylujazdy.DataBase.MyDatabase;
+import com.example.ocenastylujazdy.LocaleHelper;
 import com.example.ocenastylujazdy.MainActivity;
 import com.example.ocenastylujazdy.R;
 import com.github.pires.obd.commands.ObdCommand;
@@ -243,6 +245,11 @@ public class MainActivityELM327 extends Activity {
     public void onPause() {
         super.onPause();
         finish();
+    }
+    //język
+    @Override
+    protected void attachBaseContext (Context base){
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 }
 

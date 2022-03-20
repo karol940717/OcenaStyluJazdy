@@ -1,6 +1,7 @@
 package com.example.ocenastylujazdy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -48,6 +49,11 @@ public class AnimationLogoActivity extends Activity {
 
             }
         });
+    }
+    //język
+    @Override
+    protected void attachBaseContext (Context base){
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
     @Override

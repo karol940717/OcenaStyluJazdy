@@ -158,4 +158,9 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
         super.onPause();
         finish();
     }
+    //język
+    @Override
+    protected void attachBaseContext (Context base){
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
 }

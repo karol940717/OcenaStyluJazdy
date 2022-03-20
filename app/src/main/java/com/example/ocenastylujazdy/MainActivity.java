@@ -2,7 +2,9 @@ package com.example.ocenastylujazdy;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,9 +31,9 @@ import java.io.FileWriter;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     ImageButton buttonHelp, buttonSettings;
-    Button buttonSensor, buttonELM, buttonSpeedMeter, buttonOcena, buttonClearDatabase, buttonstartMesure, buttonstopMesure;
+    Button btnEN, btnPL, buttonSensor, buttonELM, buttonSpeedMeter, buttonOcena, buttonClearDatabase, buttonstartMesure, buttonstopMesure;
     TextView textRating;
-    TextView textDistance;
+    //TextView textDistance;
     TextView DBtext;
     TextView DBtext2;
     TextView DBtext3;
@@ -48,63 +50,96 @@ public class MainActivity extends Activity implements View.OnClickListener {
     MainActivityELM327 mainActivityELM327 = new MainActivityELM327();
 
 
+    //język
+    Context context;
+    Resources resources;
+
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//urzymuje aktywny ekran, nie wygasza
 
+        btnEN = findViewById(R.id.buttonLanguageEnglish);
+        btnPL = findViewById(R.id.buttonLanguagePolish);
 
-        database = new MyDatabase(this, 1);
+       // ButterKnife.bind(this);
 
-        buttonSensor = findViewById(R.id.buttonSensor);
-        buttonELM = findViewById(R.id.buttonELM);
-        buttonHelp = findViewById(R.id.buttonHelp);
-        buttonSettings = findViewById(R.id.buttonSettings);
-        buttonSpeedMeter = findViewById(R.id.buttonSpeedMeter);
-        imageViewAxis = findViewById(R.id.imageViewAxis);
-        buttonOcena = findViewById(R.id.buttonOcena);
-        buttonClearDatabase = findViewById(R.id.buttonClearDatabase);
-        buttonstartMesure = findViewById(R.id.buttonStartMesure);
-        buttonstopMesure = findViewById(R.id.buttonStopMesure);
-        DBtext = findViewById(R.id.DatabaseReadTextView1);
-        DBtext2 = findViewById(R.id.DatabaseReadTextView2);
-        DBtext3 = findViewById(R.id.DatabaseReadTextView3);
-        textRating = findViewById(R.id.textRating);
-        progress = findViewById(R.id.textViewProgress);
-        //Oceny
-        //brake_acc=getResources().getString(R.string.brake_acceleration);;
-        brake_acc=getString(R.string.brake_acceleration);
-        speed_text=getString(R.string.speed_text);
-        throttle_acc=getString(R.string.throttle_acc);
-        summary_rate=getString(R.string.ratingSummary);
+        //zmiana języka
+        btnPL.setOnClickListener(view -> {
+            Toast.makeText(MainActivity.this, "Polski", Toast.LENGTH_SHORT).show();
+            updateViews("pl");
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
+        btnEN.setOnClickListener(view -> {
+            Toast.makeText(MainActivity.this, "English", Toast.LENGTH_SHORT).show();
+            updateViews("en");
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        });
 
 
+            database = new MyDatabase(this, 1);
+            buttonSensor = findViewById(R.id.buttonSensor);
+            buttonELM = findViewById(R.id.buttonELM);
+            buttonHelp = findViewById(R.id.buttonHelp);
+            buttonSettings = findViewById(R.id.buttonSettings);
+            buttonSpeedMeter = findViewById(R.id.buttonSpeedMeter);
+            imageViewAxis = findViewById(R.id.imageViewAxis);
+            buttonOcena = findViewById(R.id.buttonOcena);
+            buttonClearDatabase = findViewById(R.id.buttonClearDatabase);
+            buttonstartMesure = findViewById(R.id.buttonStartMesure);
+            buttonstopMesure = findViewById(R.id.buttonStopMesure);
+            DBtext = findViewById(R.id.DatabaseReadTextView1);
+            DBtext2 = findViewById(R.id.DatabaseReadTextView2);
+            DBtext3 = findViewById(R.id.DatabaseReadTextView3);
+            textRating = findViewById(R.id.textRating);
+            progress = findViewById(R.id.textViewProgress);
+            //Oceny
+            //brake_acc=getResources().getString(R.string.brake_acceleration);;
+            brake_acc = getString(R.string.brake_acceleration);
+            speed_text = getString(R.string.speed_text);
+            throttle_acc = getString(R.string.throttle_acc);
+            summary_rate = getString(R.string.ratingSummary);
 
-        // nasłuchiwanie
-        buttonHelp.setOnClickListener(this);
-        buttonSettings.setOnClickListener(this);
-        buttonELM.setOnClickListener(this);
-        buttonSensor.setOnClickListener(this);
-        buttonSpeedMeter.setOnClickListener(this);
-        buttonOcena.setOnClickListener(this);
-        buttonClearDatabase.setOnClickListener(this);
-        buttonstopMesure.setOnClickListener(this);
-        buttonstartMesure.setOnClickListener(this);
-        DBtext.setOnClickListener(this);
-        DBtext2.setOnClickListener(this);
-        DBtext3.setOnClickListener(this);
+            // nasłuchiwanie
+            buttonHelp.setOnClickListener(this);
+            buttonSettings.setOnClickListener(this);
+            buttonELM.setOnClickListener(this);
+            buttonSensor.setOnClickListener(this);
+            buttonSpeedMeter.setOnClickListener(this);
+            buttonOcena.setOnClickListener(this);
+            buttonClearDatabase.setOnClickListener(this);
+            buttonstopMesure.setOnClickListener(this);
+            buttonstartMesure.setOnClickListener(this);
+            DBtext.setOnClickListener(this);
+            DBtext2.setOnClickListener(this);
+            DBtext3.setOnClickListener(this);
 
-        //progress bar
-        prgBar = findViewById(R.id.progressBar);
-        prgBar.setVisibility(View.INVISIBLE);
+            //progress bar
+            prgBar = findViewById(R.id.progressBar);
+            prgBar.setVisibility(View.INVISIBLE);
 
-        //pozwolenie na dostęp do usługi lokalizacji
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            //pozwolenie na dostęp do usługi lokalizacji
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
         }
+
+        //do zmiany języka
+    @Override
+    protected void attachBaseContext (Context base){
+        super.attachBaseContext(LocaleHelper.onAttach(base));
     }
+    private void updateViews (String languageCode){
+        context = LocaleHelper.setLocale(this, languageCode);
+        resources = context.getResources();
+    }
+    //
+
 
     //przypisanie funkcji do przycisków
     @Override

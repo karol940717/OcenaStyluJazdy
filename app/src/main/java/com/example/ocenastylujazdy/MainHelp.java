@@ -1,12 +1,12 @@
 package com.example.ocenastylujazdy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class MainHelp extends Activity {
     TextView textHelp, textCopyright;
-
 
     //@SuppressLint("SetTextI18n")
     @Override
@@ -17,7 +17,8 @@ public class MainHelp extends Activity {
         textHelp = findViewById(R.id.textHelp);
         textCopyright = findViewById(R.id.textCopyright);
 
-
+//        updateViews("pl");
+//        updateViews("en");
         textHelp.setText(getString(R.string.hlp) + "\n" +
                 "\n" +
                         getString(R.string.hlp1) +"\n" +
@@ -31,5 +32,9 @@ public class MainHelp extends Activity {
         textCopyright.setText(getString(R.string.hlp5));
 
     }
-
+    //język
+    @Override
+    protected void attachBaseContext (Context base){
+        super.attachBaseContext(LocaleHelper.onAttach(base));
+    }
 }

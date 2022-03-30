@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.234" />
         <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_animation_logo.xml" value="0.17119565217391305" />
-        <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_data_view3_activiy.xml" value="0.17119565217391305" />
+        <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_gps_speed.xml" value="0.17119565217391305" />
+        <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_main.xml" value="0.536" />
         <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_main_e_l_m327.xml" value="0.1" />
         <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_main_help.xml" value="0.1" />
         <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/layout/activity_sensors.xml" value="0.1" />
+        <entry key="..\:/Users/KAROL CHOTKIEWICZ/AndroidStudioProjects/OcenaStyluJazdy/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.234" />
       </map>
     </option>
   </component>

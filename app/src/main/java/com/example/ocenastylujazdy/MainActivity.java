@@ -1,6 +1,7 @@
 package com.example.ocenastylujazdy;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +50,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     GpsSpeedActivity gpsSpeedActivity = new GpsSpeedActivity();
     MainActivityELM327 mainActivityELM327 = new MainActivityELM327();
 
-
     //język
     Context context;
     Resources resources;
@@ -63,8 +63,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         btnEN = findViewById(R.id.buttonLanguageEnglish);
         btnPL = findViewById(R.id.buttonLanguagePolish);
-
-       // ButterKnife.bind(this);
 
         //zmiana języka
         btnPL.setOnClickListener(view -> {
@@ -142,6 +140,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     //przypisanie funkcji do przycisków
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
         if (v.getId() == buttonHelp.getId()) {

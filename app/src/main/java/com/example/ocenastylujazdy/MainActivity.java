@@ -34,7 +34,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     ImageButton buttonHelp, buttonSettings;
     Button btnEN, btnPL, buttonSensor, buttonELM, buttonSpeedMeter, buttonOcena, buttonClearDatabase, buttonstartMesure, buttonstopMesure;
     TextView textRating;
-    //TextView textDistance;
     TextView DBtext;
     TextView DBtext2;
     TextView DBtext3;
@@ -77,7 +76,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         });
-
 
             database = new MyDatabase(this, 1);
             buttonSensor = findViewById(R.id.buttonSensor);
@@ -136,8 +134,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         context = LocaleHelper.setLocale(this, languageCode);
         resources = context.getResources();
     }
-    //
-
 
     //przypisanie funkcji do przycisków
     @SuppressLint("SetTextI18n")
@@ -162,12 +158,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         //zapis do pliku csv wyników z bazy danych
         else if (v.getId() == buttonstartMesure.getId()) {
-//            Intent intent = getIntent();
-//            Bundle bd = intent.getExtras();
-//            if (bd != null) {
-//                Float getName = (Float) bd.get("z");
-//                database.writeData(getName);
-
             String FILENAME = "log.csv";
             String FILENAME1 = "log1.csv";
             String FILENAME2 = "log2.csv";
@@ -208,37 +198,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 csvWrite5.writeNext(curCSV5.getColumnNames());
                 while (curCSV.moveToNext()) {
                     //Which column you want to exprort;
-                    String arrStr[] = {curCSV.getString(0) + "#" + curCSV.getString(1)};
+                    String[] arrStr = {curCSV.getString(0) + "#" + curCSV.getString(1)};
                     csvWrite.writeNext(arrStr);
                 }
                 csvWrite.close();
                 curCSV.close();
                 while (curCSV1.moveToNext()) {
-                    String arrStr1[] = {curCSV1.getString(0) + "#" + curCSV1.getString(1)};
+                    String[] arrStr1 = {curCSV1.getString(0) + "#" + curCSV1.getString(1)};
                     csvWrite1.writeNext(arrStr1);
                 }
                 csvWrite1.close();
                 curCSV1.close();
                 while (curCSV2.moveToNext()) {
-                    String arrStr2[] = {curCSV2.getString(0) + "#" + curCSV2.getString(1)};
+                    String[] arrStr2 = {curCSV2.getString(0) + "#" + curCSV2.getString(1)};
                     csvWrite2.writeNext(arrStr2);
                 }
                 csvWrite2.close();
                 curCSV2.close();
                 while (curCSV3.moveToNext()) {
-                    String arrStr3[] = {curCSV3.getString(0) + "#" + curCSV3.getString(1)};
+                    String[] arrStr3 = {curCSV3.getString(0) + "#" + curCSV3.getString(1)};
                     csvWrite3.writeNext(arrStr3);
                 }
                 csvWrite3.close();
                 curCSV3.close();
                 while (curCSV4.moveToNext()) {
-                    String arrStr4[] = {curCSV4.getString(0) + "#" + curCSV4.getString(1)};
+                    String[] arrStr4 = {curCSV4.getString(0) + "#" + curCSV4.getString(1)};
                     csvWrite4.writeNext(arrStr4);
                 }
                 csvWrite4.close();
                 curCSV4.close();
                 while (curCSV5.moveToNext()) {
-                    String arrStr5[] = {curCSV5.getString(0) + "#" + curCSV5.getString(1)};
+                    String[] arrStr5 = {curCSV5.getString(0) + "#" + curCSV5.getString(1)};
                     csvWrite5.writeNext(arrStr5);
                 }
                 csvWrite5.close();
@@ -247,7 +237,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(MainActivity.this, getString(R.string.save_data_to_csv), Toast.LENGTH_SHORT).show();
             } catch (Exception sqlEx) {
                 Log.e("MainActivity", sqlEx.getMessage(), sqlEx);
-                Toast.makeText(MainActivity.this, sqlEx.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, sqlEx.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         } else if (v.getId() == buttonOcena.getId()) {
@@ -444,19 +434,5 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
         }
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 10) {
-//            if (resultCode == RESULT_OK) {
-//                Float message = data.getFloatExtra("MESSAGE",z);
-//                Float message2 = data.getFloatExtra("MESSAGE2",z);
-//                database.writeData(message);
-//                database.writeDataZX(message2);
-//
-//            }
-//        }
-//    }
 }
 

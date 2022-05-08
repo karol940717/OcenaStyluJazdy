@@ -35,12 +35,14 @@ import okhttp3.Response;
 
 public class GpsSpeedActivity extends Activity implements LocationListener, View.OnClickListener {
 
-    // Date startTime;
     final private static DecimalFormat df2 = new DecimalFormat("#.######");
     TextView textSpeedLimit;
     public float currentSpeed = 0;
     public MyDatabase database;
     ImageButton nextIntent;
+    public String appid;
+    public String appcode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,6 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
         StrictMode.setThreadPolicy(policy);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        //startTime = new Date();
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -61,7 +62,6 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        //this.onLocationChanged(null);
         textSpeedLimit = findViewById(R.id.textViewSpeedLimit);
         database = new MyDatabase(this, 1);
     }
@@ -69,7 +69,6 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
     @SuppressLint("SetTextI18n")
     @Override
     public void onLocationChanged(@NonNull Location location) {
-        //TextView time = this.findViewById(R.id.textViewTimeGps);
         TextView textSpeed = this.findViewById(R.id.textViewCurrentSpeed);
         TextView latLong = this.findViewById(R.id.textViewLatLong);
 
@@ -80,8 +79,7 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
         String t1 = test1.replace(",", ".");
         String t2 = test2.replace(",", ".");
         jsonParse(t1, t2);
-//        clat = Double.parseDouble(t1);
-//        clong = Double.parseDouble(t2);
+
         //lokalizacja
         latLong.setText("Współrzędne:\n" + t1 + " , " + t2);
         //prędkość
@@ -94,9 +92,6 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
             database.writeDataSpeed(nCurrentSpeed);
         }
         currentSpeed = nCurrentSpeed;
-//            long dateMs = new Date().getTime() - startTime.getTime();
-//            long dateSec = TimeUnit.MILLISECONDS.toSeconds(dateMs);//czas w sekundach od momentu pobrania lokalizacji i wyswietlenia prędkości
-//            time.setText("Czas: " + (int) dateSec + " s");
     }
 
     //limity prędkości
@@ -107,7 +102,7 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = RequestBody.create(mediaType, "SEQNR,\tLATITUDE,\tLONGITUDE\r\n1,\t" + t1 + ",\t" + t2);
         Request request = new Request.Builder()
-                .url("https://fleet.api.here.com/2/calculateroute.json?routeMatch=1&mode=fastest;car;traffic:disabled&attributes=SPEED_LIMITS_FCn(FROM_REF_SPEED_LIMIT,TO_REF_SPEED_LIMIT)&app_id=vudtoepqc0e56blvzmZM&app_code=qB1FJk5HJzh71HY0EKQrsQ")
+                .url("https://fleet.api.here.com/2/calculateroute.json?routeMatch=1&mode=fastest;car;traffic:disabled&attributes=SPEED_LIMITS_FCn(FROM_REF_SPEED_LIMIT,TO_REF_SPEED_LIMIT)&app_id=" + getString(R.string.app_id_here) + "&app_code=" + getString(R.string.app_code_here))
                 .method("POST", body)
                 .addHeader("Content-Type", "text/plain")
                 .build();
@@ -158,9 +153,10 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
         super.onPause();
         finish();
     }
+
     //język
     @Override
-    protected void attachBaseContext (Context base){
+    protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 }

@@ -10,6 +10,8 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ocenastylujazdy.Language.LocaleHelper;
+
 public class AnimationLogoActivity extends Activity {
 
     ImageView logo;

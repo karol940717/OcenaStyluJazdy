@@ -1,4 +1,4 @@
-package com.example.ocenastylujazdy;
+package com.example.ocenastylujazdy.Language;
 
 import android.annotation.TargetApi;
 import android.content.Context;

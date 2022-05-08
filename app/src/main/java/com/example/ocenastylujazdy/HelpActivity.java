@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class MainHelp extends Activity {
+import com.example.ocenastylujazdy.Language.LocaleHelper;
+
+public class HelpActivity extends Activity {
     TextView textHelp, textCopyright;
 
     //@SuppressLint("SetTextI18n")

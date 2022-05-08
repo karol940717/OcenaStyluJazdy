@@ -26,6 +26,7 @@ import com.example.ocenastylujazdy.DataBase.MyDatabase;
 import com.example.ocenastylujazdy.DataView.DataView1Activiy;
 import com.example.ocenastylujazdy.DataView.DataView2Activiy;
 import com.example.ocenastylujazdy.DataView.DataView3Activiy;
+import com.example.ocenastylujazdy.Language.LocaleHelper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -141,7 +142,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == buttonHelp.getId()) {
             Toast.makeText(MainActivity.this, getString(R.string.info), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, MainHelp.class);
+            Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);
         } else if (v.getId() == buttonELM.getId()) {
             Intent intent = new Intent(this, MainActivityELM327.class);

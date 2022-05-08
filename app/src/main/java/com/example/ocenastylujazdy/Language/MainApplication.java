@@ -1,7 +1,8 @@
-package com.example.ocenastylujazdy;
+package com.example.ocenastylujazdy.Language;
 
 import android.app.Application;
 import android.content.Context;
+
 //klasa potrzebna do ustawienia języka aplikacji
 public class MainApplication extends Application {
     @Override

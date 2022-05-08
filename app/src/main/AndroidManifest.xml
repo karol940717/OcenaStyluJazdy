@@ -25,7 +25,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".GpsSpeedActivity" />
         <activity android:name=".SensorsActivity" />
-        <activity android:name=".MainHelp" />
+        <activity android:name=".HelpActivity" />
         <activity android:name=".AnimationLogoActivity"
             android:exported="true">
             <intent-filter>

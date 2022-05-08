@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.example.ocenastylujazdy.DataBase.MyDatabase;
+import com.example.ocenastylujazdy.Language.LocaleHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,9 +41,6 @@ public class GpsSpeedActivity extends Activity implements LocationListener, View
     public float currentSpeed = 0;
     public MyDatabase database;
     ImageButton nextIntent;
-    public String appid;
-    public String appcode;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

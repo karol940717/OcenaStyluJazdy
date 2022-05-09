@@ -78,60 +78,61 @@ public class MainActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
         });
 
-            database = new MyDatabase(this, 1);
-            buttonSensor = findViewById(R.id.buttonSensor);
-            buttonELM = findViewById(R.id.buttonELM);
-            buttonHelp = findViewById(R.id.buttonHelp);
-            buttonSettings = findViewById(R.id.buttonSettings);
-            buttonSpeedMeter = findViewById(R.id.buttonSpeedMeter);
-            imageViewAxis = findViewById(R.id.imageViewAxis);
-            buttonOcena = findViewById(R.id.buttonOcena);
-            buttonClearDatabase = findViewById(R.id.buttonClearDatabase);
-            buttonstartMesure = findViewById(R.id.buttonStartMesure);
-            buttonstopMesure = findViewById(R.id.buttonStopMesure);
-            DBtext = findViewById(R.id.DatabaseReadTextView1);
-            DBtext2 = findViewById(R.id.DatabaseReadTextView2);
-            DBtext3 = findViewById(R.id.DatabaseReadTextView3);
-            textRating = findViewById(R.id.textRating);
-            progress = findViewById(R.id.textViewProgress);
-            //Oceny
-            //brake_acc=getResources().getString(R.string.brake_acceleration);;
-            brake_acc = getString(R.string.brake_acceleration);
-            speed_text = getString(R.string.speed_text);
-            throttle_acc = getString(R.string.throttle_acc);
-            summary_rate = getString(R.string.ratingSummary);
+        database = new MyDatabase(this, 1);
+        buttonSensor = findViewById(R.id.buttonSensor);
+        buttonELM = findViewById(R.id.buttonELM);
+        buttonHelp = findViewById(R.id.buttonHelp);
+        buttonSettings = findViewById(R.id.buttonSettings);
+        buttonSpeedMeter = findViewById(R.id.buttonSpeedMeter);
+        imageViewAxis = findViewById(R.id.imageViewAxis);
+        buttonOcena = findViewById(R.id.buttonOcena);
+        buttonClearDatabase = findViewById(R.id.buttonClearDatabase);
+        buttonstartMesure = findViewById(R.id.buttonStartMesure);
+        buttonstopMesure = findViewById(R.id.buttonStopMesure);
+        DBtext = findViewById(R.id.DatabaseReadTextView1);
+        DBtext2 = findViewById(R.id.DatabaseReadTextView2);
+        DBtext3 = findViewById(R.id.DatabaseReadTextView3);
+        textRating = findViewById(R.id.textRating);
+        progress = findViewById(R.id.textViewProgress);
+        //Oceny
+        //brake_acc=getResources().getString(R.string.brake_acceleration);;
+        brake_acc = getString(R.string.brake_acceleration);
+        speed_text = getString(R.string.speed_text);
+        throttle_acc = getString(R.string.throttle_acc);
+        summary_rate = getString(R.string.ratingSummary);
 
-            // nasłuchiwanie
-            buttonHelp.setOnClickListener(this);
-            buttonSettings.setOnClickListener(this);
-            buttonELM.setOnClickListener(this);
-            buttonSensor.setOnClickListener(this);
-            buttonSpeedMeter.setOnClickListener(this);
-            buttonOcena.setOnClickListener(this);
-            buttonClearDatabase.setOnClickListener(this);
-            buttonstopMesure.setOnClickListener(this);
-            buttonstartMesure.setOnClickListener(this);
-            DBtext.setOnClickListener(this);
-            DBtext2.setOnClickListener(this);
-            DBtext3.setOnClickListener(this);
+        // nasłuchiwanie
+        buttonHelp.setOnClickListener(this);
+        buttonSettings.setOnClickListener(this);
+        buttonELM.setOnClickListener(this);
+        buttonSensor.setOnClickListener(this);
+        buttonSpeedMeter.setOnClickListener(this);
+        buttonOcena.setOnClickListener(this);
+        buttonClearDatabase.setOnClickListener(this);
+        buttonstopMesure.setOnClickListener(this);
+        buttonstartMesure.setOnClickListener(this);
+        DBtext.setOnClickListener(this);
+        DBtext2.setOnClickListener(this);
+        DBtext3.setOnClickListener(this);
 
-            //progress bar
-            prgBar = findViewById(R.id.progressBar);
-            prgBar.setVisibility(View.INVISIBLE);
+        //progress bar
+        prgBar = findViewById(R.id.progressBar);
+        prgBar.setVisibility(View.INVISIBLE);
 
-            //pozwolenie na dostęp do usługi lokalizacji
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
+        //pozwolenie na dostęp do usługi lokalizacji
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
+    }
 
-        //do zmiany języka
+    //do zmiany języka
     @Override
-    protected void attachBaseContext (Context base){
+    protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
-    private void updateViews (String languageCode){
+
+    private void updateViews(String languageCode) {
         context = LocaleHelper.setLocale(this, languageCode);
         resources = context.getResources();
     }
@@ -250,15 +251,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             float ocena = parm1 / parm2;
 
             if (ocena <= 0.2) {
-                DBtext.setText(brake_acc + " 5/5");
+                DBtext.setText(brake_acc + getString(R.string.r5));
             } else if (ocena > 0.2 && ocena <= 0.4) {
-                DBtext.setText(brake_acc + " 4/5");
+                DBtext.setText(brake_acc + getString(R.string.r4));
             } else if (ocena > 0.4 && ocena <= 0.6) {
-                DBtext.setText(brake_acc + " 3/5");
+                DBtext.setText(brake_acc + getString(R.string.r3));
             } else if (ocena > 0.6 && ocena <= 0.8) {
-                DBtext.setText(brake_acc + " 2/5");
+                DBtext.setText(brake_acc + getString(R.string.r2));
             } else if (ocena > 0.8) {
-                DBtext.setText(brake_acc + " 1/5");
+                DBtext.setText(brake_acc + getString(R.string.r1));
             } else {
                 DBtext.setText(getString(R.string.test_acc));
             }
@@ -271,15 +272,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
             if (ocena2 <= 0.2) {
-                DBtext2.setText(speed_text + " 5/5");
+                DBtext2.setText(speed_text + getString(R.string.r5));
             } else if (ocena2 > 0.2 && ocena2 <= 0.4) {
-                DBtext2.setText(speed_text + " 4/5");
+                DBtext2.setText(speed_text + getString(R.string.r4));
             } else if (ocena2 > 0.4 && ocena2 <= 0.6) {
-                DBtext2.setText(speed_text + " 3/5");
+                DBtext2.setText(speed_text + getString(R.string.r3));
             } else if (ocena2 > 0.6 && ocena2 <= 0.8) {
-                DBtext2.setText(speed_text + " 2/5");
+                DBtext2.setText(speed_text + getString(R.string.r2));
             } else if (ocena2 > 0.8) {
-                DBtext2.setText(speed_text + " 1/5");
+                DBtext2.setText(speed_text + getString(R.string.r1));
             } else {
                 DBtext2.setText(getString(R.string.test_speed));
 
@@ -293,15 +294,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             float ocena3 = parm5 / parm6;
 
             if (ocena3 <= 0.2) {
-                DBtext3.setText(throttle_acc + " 5/5");
+                DBtext3.setText(throttle_acc + getString(R.string.r5));
             } else if (ocena3 > 0.2 && ocena3 <= 0.4) {
-                DBtext3.setText(throttle_acc + " 4/5");
+                DBtext3.setText(throttle_acc + getString(R.string.r4));
             } else if (ocena3 > 0.4 && ocena3 <= 0.6) {
-                DBtext3.setText(throttle_acc + " 3/5");
+                DBtext3.setText(throttle_acc + getString(R.string.r3));
             } else if (ocena3 > 0.6 && ocena3 <= 0.8) {
-                DBtext3.setText(throttle_acc + " 2/5");
+                DBtext3.setText(throttle_acc + getString(R.string.r2));
             } else if (ocena3 > 0.8) {
-                DBtext3.setText(throttle_acc + " 1/5");
+                DBtext3.setText(throttle_acc + getString(R.string.r1));
             } else {
                 DBtext3.setText(getString(R.string.test_ELM));
             }
@@ -309,19 +310,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
             //Ocena ogólna
             float ocena4 = (ocena + ocena2 + ocena3) / 3;
             if (ocena4 <= 0.2) {
-                textRating.setText(summary_rate + " 5/5");
+                textRating.setText(summary_rate + getString(R.string.r5));
                 textRating.setTextSize(25);
             } else if (ocena4 > 0.2 && ocena4 <= 0.4) {
-                textRating.setText(summary_rate + " 4/5");
+                textRating.setText(summary_rate + getString(R.string.r4));
                 textRating.setTextSize(25);
             } else if (ocena4 > 0.4 && ocena4 <= 0.6) {
-                textRating.setText(summary_rate + " 3/5");
+                textRating.setText(summary_rate + getString(R.string.r3));
                 textRating.setTextSize(25);
             } else if (ocena4 > 0.6 && ocena4 <= 0.8) {
-                textRating.setText(summary_rate + " 2/5");
+                textRating.setText(summary_rate + getString(R.string.r2));
                 textRating.setTextSize(25);
             } else if (ocena4 > 0.8) {
-                textRating.setText(summary_rate + " 1/5");
+                textRating.setText(summary_rate + getString(R.string.r1));
                 textRating.setTextSize(25);
             } else {
                 textRating.setText(getString(R.string.all_sensor));

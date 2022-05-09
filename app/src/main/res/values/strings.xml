@@ -44,6 +44,12 @@
     <string name="brake_acceleration">Hamowanie i przyspieszanie:</string>
     <string name="speed_text">Prędkość:</string>
     <string name="throttle_acc">Pedał przyspieszenia:</string>
+    <!--ocenY-->
+    <string name="r1" translatable="false"> 1/5</string>
+    <string name="r2" translatable="false"> 2/5</string>
+    <string name="r3" translatable="false"> 3/5</string>
+    <string name="r4" translatable="false"> 4/5</string>
+    <string name="r5" translatable="false"> 5/5</string>
     <!--dymki-->
     <string name="info">Informacje</string>
     <string name="save_data_to_csv">Zapis danych do pliku csv</string>
